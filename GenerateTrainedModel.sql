@@ -2,7 +2,7 @@ USE loan;
 
 DROP TABLE IF EXISTS clients_loan_models;
 GO
---We will store trained model in this table
+-- Declaring table to store trained model
 CREATE TABLE clients_loan_models 
 (	
 	model_name VARCHAR(30) NOT NULL DEFAULT('default model') PRIMARY KEY,
@@ -10,7 +10,7 @@ CREATE TABLE clients_loan_models
 );
 GO
 
--- Stored procedure that trains and generates an R model using the rental_data and a decision tree algorithm
+-- Stored procedure that trains and generates an R model using the clients data and support vector machines
 DROP PROCEDURE IF EXISTS generate_clients_loan_model;
 go
 CREATE PROCEDURE generate_clients_loan_model (@trained_model varbinary(max) OUTPUT)
@@ -51,10 +51,10 @@ END;
 GO
 
 
--- Save model to table
+-- Saving model to table
 TRUNCATE TABLE clients_loan_models;
 
---Execute Stored Procedure to generate trained model using LR algorithm
+-- Executing Stored Procedure to generate trained model using SVM with polynomial kernel
 DECLARE @model VARBINARY(MAX);
 EXEC generate_clients_loan_model @model OUTPUT;
 
